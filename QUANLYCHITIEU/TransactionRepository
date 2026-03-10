@@ -1,0 +1,64 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace QuanLyChiTieu
+{
+    internal class TransactionRepository
+    {
+        private Transaction[] _txArr;
+        private int _count;
+        private int _nextId;
+
+        public TransactionRepository(int capacity) 
+        {
+            _txArr = new Transaction[capacity];
+            _count = 0;
+            _nextId = 1;
+        }
+        public int GetCount()
+        {
+            return _count;
+        }
+
+        public int GetNextId()
+        {
+            return _nextId;
+        }
+
+        public Transaction CreateEmpty()
+        {
+            Transaction t = new Transaction(_nextId);
+            _nextId++;
+            return t;
+        }
+        public void Add(Transaction t)
+        {
+            if (_count >= _txArr.Length)
+                throw new Exception("Mang day, khong them duoc nua!");
+            for (int i = 0; i < _count; i++)
+            {
+                if (t.GetId() == _txArr[i].GetId())
+                    throw new Exception("ID đã tồn tại");
+                _txArr[_count] = t;
+                _count++;
+            }
+        }
+
+        public void PrintAll()
+        {
+            if (_count == 0)
+
+                Console.WriteLine("Danh sach rong.");
+            else
+            {
+                for (int i = 0; i < _count; i++)
+                {
+                    _txArr[i].PrintTransaction();
+                }
+            }
+        }
+    }
+}
